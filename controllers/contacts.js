@@ -1,11 +1,3 @@
-// const Joi = require("joi");
-// const addSchema = Joi.object({
-//   name: Joi.string().required(),
-//   email: Joi.string()
-//     .required()
-//     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
-//   phone: Joi.string().min(6).max(10).required(),
-// });
 const {
   listContacts,
   getContactById,
@@ -32,12 +24,6 @@ const getById = async (req, res) => {
 };
 // ----
 const addNewContact = async (req, res) => {
-  // const { error } = addSchema.validate(req.body);
-
-  // if (error) {
-  //   throw HttpError(400, error.message);
-  // }
-
   const result = await addContact(req.body);
   res.status(201).json(result);
 };
@@ -45,7 +31,6 @@ const addNewContact = async (req, res) => {
 const deleteContact = async (req, res) => {
   const { contactId } = req.params;
   const result = await removeContact(contactId);
-  console.log(result);
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -55,13 +40,7 @@ const deleteContact = async (req, res) => {
 };
 // -----
 const changeContact = async (req, res) => {
-  // const { error } = addSchema.validate(req.body);
-
-  // if (error) {
-  //   throw HttpError(400, error.message);
-  // }
   const { contactId } = req.params;
-  console.log(contactId);
   const result = await updateContact(contactId, req.body);
   if (!result) {
     throw HttpError(404, "Not found");

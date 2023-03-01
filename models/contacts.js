@@ -11,8 +11,6 @@ const listContacts = async () => {
 };
 
 const getContactById = async (id) => {
-  // const contacts = await fs.readFile(contactsPath, "utf8");
-  // const contactsArr = JSON.parse(contacts);
   const contactsArr = await listContacts();
   const oneContact = contactsArr.find((contact) => contact.id === id);
   return oneContact || null;
@@ -32,8 +30,6 @@ const removeContact = async (id) => {
 
 const addContact = async (body) => {
   const contactsArr = await listContacts();
-  // const contacts = await fs.readFile(contactsPath, "utf8");
-  // const contactsArr = JSON.parse(contacts);
   const newContact = {
     id: short.generate("0123456789"),
     ...body,
