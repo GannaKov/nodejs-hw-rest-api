@@ -10,17 +10,17 @@ const {
   // changeContact,
 } = require("../../controllers/contacts");
 
-const { validateBody } = require("../../middlewares");
+const { validateBody, isValidId } = require("../../middlewares");
 // const schemas = require("../../schemas/contacts");
 const { schemas } = require("../../models/contact");
 // -----------------
 router.get("/", getAllContacts);
 
-router.get("/:contactId", getById);
-
+router.get("/:contactId", isValidId, getById);
+// isValidId,
 router.post("/", validateBody(schemas.addSchemaPost), addNewContact);
-// router.post("/", addNewContact);
-// router.delete("/:contactId", deleteContact);
 
-// router.put("/:contactId", validateBody(schemas.addSchemaPut), changeContact);
+// router.delete("/:contactId", isValidId,deleteContact);
+
+// router.put("/:contactId", isValidId,validateBody(schemas.addSchemaPut), changeContact);
 module.exports = router;
