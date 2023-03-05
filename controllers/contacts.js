@@ -6,25 +6,26 @@
 //   updateContact,
 // } = require("../models/contacts");
 
-// const { HttpError, ctrlWrapper } = require("../helpers");
+const { HttpError, ctrlWrapper } = require("../helpers");
 
-const { ctrlWrapper } = require("../helpers");
-const Contact = require("../models/contact"); //
+const { Contact } = require("../models/contact"); //
 // ------------------------------
 
 const getAllContacts = async (req, res) => {
-  const result = await Contact.find();
+  console.log("hier");
+  const result = await Contact.find({}, "-createdAt -updatedAt");
   res.json(result);
 };
 // ----
-// const getById = async (req, res) => {
-//   const { contactId } = req.params;
-//   const result = await getContactById(contactId);
-//   if (!result) {
-//     throw HttpError(404, "Not found ");
-//   }
-//   res.json(result);
-// };
+const getById = async (req, res) => {
+  const { contactId } = req.params;
+  // const result = await Contact.findOne({ _id: contactId }); for me to remember
+  const result = await Contact.findById(contactId);
+  if (!result) {
+    throw HttpError(404, "Not found ");
+  }
+  res.json(result);
+};
 // // ----
 const addNewContact = async (req, res) => {
   const result = await Contact.create(req.body);
@@ -62,7 +63,7 @@ const addNewContact = async (req, res) => {
 
 module.exports = {
   getAllContacts: ctrlWrapper(getAllContacts),
-  // getById: ctrlWrapper(getById),
+  getById: ctrlWrapper(getById),
   addNewContact: ctrlWrapper(addNewContact),
   // deleteContact: ctrlWrapper(deleteContact),
   // changeContact: ctrlWrapper(changeContact),
