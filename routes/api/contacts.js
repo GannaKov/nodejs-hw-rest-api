@@ -32,8 +32,8 @@ router.put(
 );
 
 router.patch(
-  "/:contactId",
-  // "/:contactId/favorite" --- doesnt work !!!????
+  // "/:contactId",
+  "/:contactId/favorite",
   isValidId,
   validateBody(schemas.updateFavoriteSchema),
   updateStatusContact
