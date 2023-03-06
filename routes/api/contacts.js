@@ -8,18 +8,35 @@ const {
   addNewContact,
   deleteContact,
   changeContact,
+  updateStatusContact,
 } = require("../../controllers/contacts");
 
-const { validateBody } = require("../../middlewares");
-const schemas = require("../../schemas/contacts");
+const { validateBody, isValidId } = require("../../middlewares");
+
+const { schemas } = require("../../models/contact");
 // -----------------
 router.get("/", getAllContacts);
 
-router.get("/:contactId", getById);
+router.get("/:contactId", isValidId, getById);
 
 router.post("/", validateBody(schemas.addSchemaPost), addNewContact);
 
-router.delete("/:contactId", deleteContact);
+router.delete("/:contactId", isValidId, deleteContact);
 
-router.put("/:contactId", validateBody(schemas.addSchemaPut), changeContact);
+router.put(
+  "/:contactId",
+  isValidId,
+  validateBody(schemas.addSchemaPut),
+
+  changeContact
+);
+
+router.patch(
+  "/:contactId",
+  // "/:contactId/favorite" --- doesnt work !!!????
+  isValidId,
+  validateBody(schemas.updateFavoriteSchema),
+  updateStatusContact
+);
+
 module.exports = router;
