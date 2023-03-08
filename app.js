@@ -34,4 +34,5 @@ module.exports = app;
 // https://nodejs-hw-rest-api-zggp.onrender.com/api/contacts
 // http://localhost:3000/api/auth/register
 // { "email": "aaa2@aaa.com", "password": "123456" }
-// "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDc0ZGZiMTgzMTkwZDU3OGNkZWY2ZiIsImlhdCI6MTY3ODI5NDM0OSwiZXhwIjoxNjc4Mzc3MTQ5fQ.Hljw_88Jlx4xHvkXZyOoUk4FyVZxTRLETqz0j8qk95A"
+// "token1": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDY1ODhjYmU0NmFjYWQwZWFiM2IyNCIsImlhdCI6MTY3ODMwMDk5MiwiZXhwIjoxNjc4MzgzNzkyfQ.XU_yAtcOg0ltr9tYKgNbJtEtbUHSW0J5slvUh01UTu0
+//  "token2": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDc0NTAxOGEwNzBmNmRmMjQ4NjBiYiIsImlhdCI6MTY3ODMwMTEzMCwiZXhwIjoxNjc4MzgzOTMwfQ.q-mhOLCrNFEcnQZ1wEuAgXI9Wlz5l5r_8oPe0ertz-k
