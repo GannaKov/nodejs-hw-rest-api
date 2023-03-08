@@ -22,6 +22,10 @@ const userSchema = new Schema(
       minLength: [6, "Password must be at least 6 digits"],
       required: [true, "Password is required"],
     },
+    token: {
+      type: String,
+      default: "",
+    },
   },
 
   { versionKey: false, timestamps: true }
