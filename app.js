@@ -33,3 +33,5 @@ module.exports = app;
 // http://localhost:3000/api/contacts
 // https://nodejs-hw-rest-api-zggp.onrender.com/api/contacts
 // http://localhost:3000/api/auth/register
+// { "email": "aaa2@aaa.com", "password": "123456" }
+// "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MDc0ZGZiMTgzMTkwZDU3OGNkZWY2ZiIsImlhdCI6MTY3ODI5NDM0OSwiZXhwIjoxNjc4Mzc3MTQ5fQ.Hljw_88Jlx4xHvkXZyOoUk4FyVZxTRLETqz0j8qk95A"
