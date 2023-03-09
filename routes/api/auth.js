@@ -8,4 +8,5 @@ router.post("/register", validateBody(schemas.registerSchema), cntrl.register);
 router.post("/login", validateBody(schemas.loginSchema), cntrl.login);
 router.get("/current", authentication, cntrl.getCurrent);
 router.post("/logout", authentication, cntrl.logout);
+
 module.exports = router;

@@ -10,7 +10,7 @@ const getAllContacts = async (req, res) => {
   const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
     skip,
     limit,
-  }).populate("owner", "name email");
+  }).populate("owner", " email");
   res.json(result);
 };
 // ----
@@ -57,7 +57,6 @@ const changeContact = async (req, res) => {
 
 // ---------------------
 const updateStatusContact = async (req, res) => {
-  console.log("HIER");
   const { contactId } = req.params;
   if (!Object.keys(req.body).length) {
     return res.status(400).json({ message: "missing field favorite" });

@@ -12,7 +12,6 @@ const authentication = async (req, res, next) => {
   const [bearer, token] = authorization.split(" ");
 
   if (bearer !== "Bearer") {
-    console.log("HIER");
     next(HttpError(401, "Problem with Bearer"));
   }
   try {
@@ -20,13 +19,11 @@ const authentication = async (req, res, next) => {
 
     const user = await User.findById(id);
     if (!user || !user.token || user.token !== token) {
-      console.log("HIER2");
-      next(HttpError(401, "User not found"));
+      next(HttpError(401, "Not authorized"));
     }
     req.user = user;
     next();
   } catch {
-    console.log("HIER3");
     next(HttpError(401));
   }
 };
