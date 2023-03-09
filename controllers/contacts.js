@@ -38,13 +38,18 @@ const addNewContact = async (req, res) => {
 };
 // // -----
 const deleteContact = async (req, res) => {
-  const { contactId } = req.params;
-  const result = await Contact.findByIdAndRemove(contactId);
+  const { _id: owner } = req.user;
+
+  const result = await Contact.findOneAndRemove({
+    _id: req.params.contactId,
+    owner: owner,
+  });
   if (!result) {
     throw HttpError(404, "Not found");
   }
   res.json({
     message: "contact deleted",
+    status: "200",
   });
 };
 // // -----
