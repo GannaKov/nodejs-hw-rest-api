@@ -8,5 +8,10 @@ router.post("/register", validateBody(schemas.registerSchema), cntrl.register);
 router.post("/login", validateBody(schemas.loginSchema), cntrl.login);
 router.get("/current", authentication, cntrl.getCurrent);
 router.post("/logout", authentication, cntrl.logout);
-
+router.patch(
+  "/subscription",
+  authentication,
+  validateBody(schemas.updateSubscriptionSchema),
+  cntrl.updateSubscription
+);
 module.exports = router;
