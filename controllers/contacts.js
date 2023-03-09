@@ -69,13 +69,21 @@ const changeContact = async (req, res) => {
 
 // ---------------------
 const updateStatusContact = async (req, res) => {
+  const { _id: owner } = req.user;
   const { contactId } = req.params;
   if (!Object.keys(req.body).length) {
     return res.status(400).json({ message: "missing field favorite" });
   }
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const result = await Contact.findOneAndUpdate(
+    {
+      _id: contactId,
+      owner: owner,
+    },
+    req.body,
+    {
+      new: true,
+    }
+  );
   if (!result) {
     throw HttpError(404, "Not found");
   }
