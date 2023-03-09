@@ -41,7 +41,7 @@ const addNewContact = async (req, res) => {
 const deleteContact = async (req, res) => {
   const { _id: owner } = req.user;
 
-  const result = await Contact.findOneAndRemove({
+  const result = await Contact.findOneAndDelete({
     _id: req.params.contactId,
     owner: owner,
   });
