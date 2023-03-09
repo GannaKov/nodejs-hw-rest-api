@@ -41,7 +41,6 @@ router.put(
 );
 
 router.patch(
-  // "/:contactId",
   "/:contactId/favorite",
   authentication,
   isValidId,

@@ -7,13 +7,20 @@ const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
   const { page = 1, limit = 5 } = req.query;
   const skip = (page - 1) * limit;
+  const match = {};
+  if (req.query.favorite) {
+    match.favorite = req.query.favorite === "true";
+  }
   const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
     skip,
     limit,
-  }).populate("owner", " email");
+  })
+    .where(match)
+    .populate("owner", " email");
   res.json(result);
 };
-// ----
+
+// -----
 const getById = async (req, res) => {
   const { contactId } = req.params;
   // const result = await Contact.findOne({ _id: contactId }); for me to remember
