@@ -23,8 +23,7 @@ const addSchemaPut = Joi.object({
   favorite: Joi.boolean(),
 });
 // ----------------------
-const updateFavoriteSchema = Joi.object({ favorite: Joi.boolean() });
-// .required()
+const updateFavoriteSchema = Joi.object({ favorite: Joi.boolean() }).required();
 // ---------------------------
 
 const contactSchema = new Schema(
@@ -41,6 +40,11 @@ const contactSchema = new Schema(
       maxLength: [10, "Phonenumbe must be maximum 10 digits"],
     },
     favorite: { type: Boolean, default: false },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     //
   },
   { versionKey: false, timestamps: true }
