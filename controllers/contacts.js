@@ -2,24 +2,35 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 
 const { Contact } = require("../models/contact");
 // ------------------------------
-
+// мій варіант
+// const getAllContacts = async (req, res) => {
+//   const { _id: owner } = req.user;
+//   const { page = 1, limit = 5 } = req.query;
+//   const skip = (page - 1) * limit;
+//   const match = {};
+//   if (req.query.favorite) {
+//     match.favorite = req.query.favorite === "true";
+//   }
+//   const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
+//     skip,
+//     limit,
+//   })
+//     .where(match)
+//     .populate("owner", " email");
+//   res.json(result);
+// };
+// альтернативний варіант, але мій варіант працює ))))))
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 5 } = req.query;
+  const { favorite = [true, false], page = 1, limit = 10 } = req.query;
   const skip = (page - 1) * limit;
-  const match = {};
-  if (req.query.favorite) {
-    match.favorite = req.query.favorite === "true";
-  }
-  const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
+  const queryParams = { owner, favorite: favorite };
+  const result = await Contact.find(queryParams, "-createdAt -updatedAt", {
     skip,
     limit,
-  })
-    .where(match)
-    .populate("owner", " email");
+  }).populate("owner", " email");
   res.json(result);
 };
-
 // -----
 const getById = async (req, res) => {
   const { contactId } = req.params;
