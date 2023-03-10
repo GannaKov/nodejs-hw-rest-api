@@ -19,6 +19,7 @@ const { Contact } = require("../models/contact");
 //     .populate("owner", " email");
 //   res.json(result);
 // };
+
 // альтернативний варіант, але мій варіант працює ))))))
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
