@@ -1,4 +1,4 @@
-const { HttpError, ctrlWrapper } = require("../helpers");
+const { HttpError, ctrlWrapper, doResizeImage } = require("../helpers");
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -7,7 +7,7 @@ require("dotenv").config();
 const { SECRET_KEY } = process.env;
 const fs = require("fs/promises");
 const path = require("path");
-const Jimp = require("jimp");
+
 // -----------------------------
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -75,18 +75,7 @@ const updateSubscription = async (req, res) => {
   res.json(result);
 };
 // -------------------
-const doResizeImage = async (imgPath) => {
-  try {
-    console.log("hier");
-    console.log("imgPath", imgPath);
-    const image = await Jimp.read(imgPath);
-    image.resize(250, 250);
-    image.writeAsync(imgPath);
-    console.log("hier2");
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+
 // -----------
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 const updateAvatar = async (req, res) => {
@@ -104,6 +93,7 @@ const updateAvatar = async (req, res) => {
   await User.findByIdAndUpdate(_id, { avatarURL });
   res.json(avatarURL);
 };
+
 // ----------------------------
 module.exports = {
   register: ctrlWrapper(register),
