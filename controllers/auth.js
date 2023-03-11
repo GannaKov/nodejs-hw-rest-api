@@ -2,8 +2,11 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const gravatar = require("gravatar");
 require("dotenv").config();
 const { SECRET_KEY } = process.env;
+const fs = require("fs/promises");
+const path = require("path");
 // -----------------------------
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -12,7 +15,12 @@ const register = async (req, res) => {
     throw HttpError(409, "Email in use");
   }
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+  const avatarURL = gravatar.url(email);
+  const newUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+    avatarURL,
+  });
   res
     .status(201)
     .json({ email: newUser.email, subscription: newUser.subscription });
@@ -65,6 +73,21 @@ const updateSubscription = async (req, res) => {
   }
   res.json(result);
 };
+// -------------------
+const avatarsDir = path.join(__dirname, "../", "public", "avatars");
+const updateAvatar = async (req, res) => {
+  console.log("hier");
+  const { _id } = req.user;
+  const { path: tempUpload, originalname } = req.file;
+  console.log(req.file);
+  console.log("originalName", originalname);
+  const resultUpload = path.join(avatarsDir, originalname);
+  await fs.rename(tempUpload, resultUpload);
+  const avatarURL = path.join("avatars", originalname);
+  console.log("avatarURL", avatarURL);
+  await User.findByIdAndUpdate(_id, { avatarURL });
+  res.json(avatarURL);
+};
 // ----------------------------
 module.exports = {
   register: ctrlWrapper(register),
@@ -72,4 +95,5 @@ module.exports = {
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
   updateSubscription: ctrlWrapper(updateSubscription),
+  updateAvatar: ctrlWrapper(updateAvatar),
 };
