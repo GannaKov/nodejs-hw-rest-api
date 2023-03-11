@@ -7,6 +7,7 @@ require("dotenv").config();
 const { SECRET_KEY } = process.env;
 const fs = require("fs/promises");
 const path = require("path");
+const Jimp = require("jimp");
 // -----------------------------
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -74,17 +75,32 @@ const updateSubscription = async (req, res) => {
   res.json(result);
 };
 // -------------------
+const doResizeImage = async (imgPath) => {
+  try {
+    console.log("hier");
+    console.log("imgPath", imgPath);
+    const image = await Jimp.read(imgPath);
+    image.resize(250, 250);
+    image.writeAsync(imgPath);
+    console.log("hier2");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+// -----------
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 const updateAvatar = async (req, res) => {
-  console.log("hier");
   const { _id } = req.user;
+
   const { path: tempUpload, originalname } = req.file;
-  console.log(req.file);
-  console.log("originalName", originalname);
-  const resultUpload = path.join(avatarsDir, originalname);
+  console.log("tempUpload", tempUpload);
+  await doResizeImage(tempUpload);
+  const fileName = `${_id}_${originalname}`;
+
+  const resultUpload = path.join(avatarsDir, fileName);
   await fs.rename(tempUpload, resultUpload);
-  const avatarURL = path.join("avatars", originalname);
-  console.log("avatarURL", avatarURL);
+  const avatarURL = path.join("avatars", fileName);
+
   await User.findByIdAndUpdate(_id, { avatarURL });
   res.json(avatarURL);
 };
