@@ -20,7 +20,7 @@ const { Contact } = require("../models/contact");
 //   res.json(result);
 // };
 
-// альтернативний варіант, але мій варіант працює ))))))
+// альтернативний варіант, але мій варіант працює
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
   const { favorite = [true, false], page = 1, limit = 10 } = req.query;
