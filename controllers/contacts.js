@@ -49,7 +49,8 @@ const getAllContacts = async (req, res) => {
   })
     .populate("owner", " email")
     .exec();
-  res.json(result);
+  const count = await Contact.countDocuments(query);
+  res.json({ result, totalPages: Math.ceil(count / limit), currentPage: page });
 };
 // -----
 const getById = async (req, res) => {
