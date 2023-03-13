@@ -20,17 +20,37 @@ const { Contact } = require("../models/contact");
 //   res.json(result);
 // };
 
-// альтернативний варіант, але мій варіант працює ))))))
+// альтернативний варіант, але мій варіант працює
+// const getAllContacts = async (req, res) => {
+//   const { _id: owner } = req.user;
+//   const { favorite = [true, false], page = 1, limit = 10 } = req.query;
+//   const skip = (page - 1) * limit;
+//   const queryParams = { owner, favorite: favorite };
+//   const result = await Contact.find(queryParams, "-createdAt -updatedAt", {
+//     skip,
+//     limit,
+//   }).populate("owner", " email");
+//   res.json(result);
+// };
+
+// версія від штучного інтелекту
 const getAllContacts = async (req, res) => {
-  const { _id: owner } = req.user;
-  const { favorite = [true, false], page = 1, limit = 10 } = req.query;
+  const userId = req.user._id;
+  const query = { owner: userId };
+  const { page = 1, limit = 10, favorite = null } = req.query;
+  if (favorite !== null) {
+    query.favorite = favorite;
+  }
   const skip = (page - 1) * limit;
-  const queryParams = { owner, favorite: favorite };
-  const result = await Contact.find(queryParams, "-createdAt -updatedAt", {
+
+  const result = await Contact.find(query, "-createdAt -updatedAt", {
     skip,
     limit,
-  }).populate("owner", " email");
-  res.json(result);
+  })
+    .populate("owner", " email")
+    .exec();
+  const count = await Contact.countDocuments(query);
+  res.json({ result, totalPages: Math.ceil(count / limit), currentPage: page });
 };
 // -----
 const getById = async (req, res) => {
