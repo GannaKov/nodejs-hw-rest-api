@@ -36,7 +36,7 @@ describe("POST /login", () => {
   });
 
   it("should return a 200 status code and a token and user object", async () => {
-    const response = await request(app)
+    await request(app)
       .post("/api/users/login")
       .send({ email: "test@example.com", password: "password123" })
       .expect(200);
@@ -56,14 +56,14 @@ describe("POST /login", () => {
   });
 
   it("should return a 401 status code when the email is wrong", async () => {
-    const response = await request(app)
+    await request(app)
       .post("/api/users/login")
       .send({ email: "wrong@example.com", password: "password123" })
       .expect(401);
   });
 
   it("should return a 401 status code when the password is wrong", async () => {
-    const response = await request(app)
+    await request(app)
       .post("/api/users/login")
       .send({ email: "test@example.com", password: "wrongpassword" })
       .expect(401);

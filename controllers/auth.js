@@ -30,7 +30,6 @@ const register = async (req, res) => {
 // ----------------------
 
 const login = async (req, res) => {
-  console.log("Tester in LOGIN");
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
