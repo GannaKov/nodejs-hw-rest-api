@@ -30,6 +30,7 @@ const register = async (req, res) => {
 // ----------------------
 
 const login = async (req, res) => {
+  console.log("Tester in LOGIN");
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -82,7 +83,7 @@ const updateAvatar = async (req, res) => {
   const { _id } = req.user;
 
   const { path: tempUpload, originalname } = req.file;
-  console.log("tempUpload", tempUpload);
+
   await doResizeImage(tempUpload);
   const fileName = `${_id}_${originalname}`;
 
