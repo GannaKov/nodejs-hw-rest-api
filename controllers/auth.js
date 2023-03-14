@@ -1,4 +1,9 @@
-const { HttpError, ctrlWrapper, doResizeImage } = require("../helpers");
+const {
+  HttpError,
+  ctrlWrapper,
+  doResizeImage,
+  sendEmail,
+} = require("../helpers");
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -22,6 +27,7 @@ const register = async (req, res) => {
     password: hashPassword,
     avatarURL,
   });
+  sendEmail();
   res
     .status(201)
     .json({ email: newUser.email, subscription: newUser.subscription });
