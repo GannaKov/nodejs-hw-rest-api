@@ -29,13 +29,26 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationCode: {
+      type: String,
+      default: "",
+    },
   },
 
   { versionKey: false, timestamps: true }
 );
 
 userSchema.post("save", handleMongooseError);
-
+// ---------------------
+const emailSchema = Joi.object({
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .required(),
+});
 // --------------------
 const registerSchema = Joi.object({
   email: Joi.string()
@@ -58,5 +71,10 @@ const updateSubscriptionSchema = Joi.object({
 // ------------------------------
 const User = model("user", userSchema);
 
-const schemas = { registerSchema, loginSchema, updateSubscriptionSchema };
+const schemas = {
+  registerSchema,
+  loginSchema,
+  updateSubscriptionSchema,
+  emailSchema,
+};
 module.exports = { User, schemas };
