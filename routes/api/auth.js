@@ -5,7 +5,7 @@ const cntrl = require("../../controllers/auth");
 // -----------------------
 const router = express.Router();
 router.post("/register", validateBody(schemas.registerSchema), cntrl.register);
-router.get("/verify/:verificationCode", cntrl.verifyEmail);
+router.get("/verify/:verificationToken", cntrl.toVerifyEmail);
 
 router.post(
   "/verify",
